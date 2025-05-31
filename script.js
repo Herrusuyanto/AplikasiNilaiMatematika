@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const backToDashboardButton = document.getElementById('back-to-dashboard');
     const dashboardView = document.getElementById('dashboard-view');
     const nilaiView = document.getElementById('nilai-view');
-    const loadingOverlay = document.getElementById('loadingOverlay'); // Dapatkan elemen loading overlay
+    // const loadingOverlay = document.getElementById('loadingOverlay'); // Dihapus karena overlay sudah dihapus dari HTML
     const toggleSidebarButton = document.getElementById('toggle-sidebar');
     const sidebar = document.getElementById('sidebar');
     const menuButtons = document.querySelectorAll('.menu-list a');
@@ -12,19 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // URL App Web Apps Script-mu (ini URL /exec ASLI-mu)
     const appsScriptUrl = 'https://script.google.com/macros/s/AKfycbyrO_bYWOUWqNB014iA-yYvLBVWiJ70sv2GiAJ9sqkOZimxaSi70JvICu79K0re0-P7Gg/exec'; // <--- URL KAMU SUDAH ADA DI SINI
 
-    // Fungsi untuk menampilkan loading overlay
-    const showLoading = () => {
-        loadingOverlay.classList.remove('hidden');
-    };
-
-    // Fungsi untuk menyembunyikan loading overlay
-    const hideLoading = () => {
-        loadingOverlay.classList.add('hidden');
-    };
-
-    // Sembunyikan loading overlay segera setelah DOMContentLoaded
-    // Ini memastikan overlay hilang saat PWA dimuat, karena kita tidak lagi memuat iframe Apps Script
-    hideLoading(); // Ini akan menjalankan fungsi hideLoading saat halaman dimuat
+    // Fungsi untuk menampilkan/menyembunyikan loading overlay tidak diperlukan lagi
+    // const showLoading = () => { loadingOverlay.classList.remove('hidden'); };
+    // const hideLoading = () => { loadingOverlay.classList.add('hidden'); };
+    // hideLoading(); // Tidak diperlukan lagi
 
     // Handle sidebar toggle for mobile
     toggleSidebarButton.addEventListener('click', () => {
@@ -58,8 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Event listener untuk tombol "Kembali ke Dashboard" (di dalam nilai-view)
-    // Fungsi ini masih dipertahankan meskipun tombol cek nilai membuka tab baru,
-    // mungkin berguna jika ada navigasi internal di masa depan
+    // Fungsi ini masih dipertahankan meskipun tombol cek nilai membuka tab baru
     backToDashboardButton.addEventListener('click', () => {
         dashboardView.classList.remove('hidden');
         nilaiView.classList.add('hidden');
