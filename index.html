@@ -3,109 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Nilai Matematika</title>
+    <title>Dashboard Aplikasi Nilai</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png"> <meta name="theme-color" content="#2193b0"> <style>
-        /* Basic styling for full-screen iframe */
-        iframe {
-            border: none;
-            width: 100%;
-            height: calc(100vh - 60px); /* Adjust height as needed */
-            display: block;
-        }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 1000;
-            font-family: 'Poppins', sans-serif;
-            color: #2193b0;
-        }
-        .loading-overlay img {
-            max-width: 150px;
-            margin-bottom: 20px;
-        }
-        .spinner {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #2199b0;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .loading-overlay p {
-            margin-top: 20px;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-    </style>
-</head>
+    <link rel="apple-touch-icon" href="icons/app-logo.png">
+    <meta name="theme-color" content="#4A90E2"/>
+    <link rel="manifest" href="manifest.json"> </head>
 <body>
-    <div class="loading-overlay" id="loadingOverlay">
-        <img src="icons/app-logo.png" alt="Loading Logo">
-        <div class="spinner"></div>
-        <p>Memuat Aplikasi...</p>
-    </div>
-
-    <div class="dashboard-container">
-        <div class="sidebar" id="sidebar">
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <img src="icons/app-logo.png" alt="App Logo" class="app-logo">
-                <h2>MATEMATIKA HEBAT</h2>
+                <img src="icons/app-logo.png" alt="Logo Aplikasi" class="app-logo">
+                <h1 class="app-title">MATEMATIKA HEBAT</h1>
             </div>
-            <ul class="menu-list">
-                <li><a href="#" id="home-button" class="active">🏠 Dashboard Utama</a></li>
-                <li><a href="#" id="cek-nilai-button">📊 Cek Nilai Siswa</a></li>
-            </ul>
-        </div>
-
-        <div class="main-content" id="mainContent">
-            <div class="topbar">
-                <button id="toggle-sidebar" class="menu-toggle">☰</button>
-                <span class="app-title">Dashboard Aplikasi Nilai</span>
+            <nav class="menu-list">
+                <a href="#" id="home-button" class="active">
+                    <span class="icon">&#127963;</span> Dashboard Utama
+                </a>
+                <a href="#" id="cek-nilai-button">
+                    <span class="icon">&#128220;</span> Cek Nilai Siswa
+                </a>
+                </nav>
+            <div class="sidebar-footer">
+                <p>&copy; 2024 Aplikasi Nilai</p>
+                <p>Version 1.0</p>
             </div>
+        </aside>
 
-            <div id="dashboard-view" class="content-view active">
-                <div class="dashboard-card welcome-card">
-                    <h3>Selamat Datang di Aplikasi Nilai Matematika!</h3>
-                    <p>Akses semua informasi nilai dan pelajaran matematika dengan mudah.</p>
-                    <img src="https://i.imgur.com/KA8rYq8.jpeg" alt="Ilustrasi Matematika" class="welcome-illustration">
+        <main class="main-content">
+            <header class="main-header">
+                <button class="toggle-sidebar-button" id="toggle-sidebar">☰</button>
+                <h2>Dashboard Aplikasi Nilai</h2>
+            </header>
+
+            <section class="dashboard-view" id="dashboard-view">
+                <div class="welcome-card">
+                    <h3>Selamat Datang di Dashboard Nilai!</h3>
+                    <p>Aplikasi ini membantu Anda mengelola dan melihat nilai siswa dengan mudah. Klik menu di samping untuk memulai.</p>
+                    <img src="icons/matematika_hebat_illustration.png" alt="Ilustrasi Matematika" class="dashboard-illustration">
                 </div>
 
-                <div class="dashboard-grid">
-                    <div class="dashboard-card grid-item">
-                        <h4>Fitur Unggulan</h4>
-                        <ul>
-                            <li>Cek Nilai Latihan, Tugas, dan Ulangan Harian</li>
-                            <li>Rekap Nilai Rata-rata dan UAS</li>
-                            <li>Informasi Guru Matematika</li>
-                        </ul>
+                <div class="card-grid">
+                    <div class="info-card">
+                        <h4>Jumlah Siswa</h4>
+                        <p class="value">150</p>
                     </div>
-                    <div class="dashboard-card grid-item">
-                        <h4>Pengumuman Terbaru</h4>
-                        <p>Tidak ada pengumuman terbaru saat ini.</p>
-                        <p><small>Pembaruan akan diinformasikan.</small></p>
+                    <div class="info-card">
+                        <h4>Rata-rata Nilai Kelas</h4>
+                        <p class="value">85.5</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Nilai Tertinggi</h4>
+                        <p class="value">98</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Nilai Terendah</h4>
+                        <p class="value">60</p>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div id="nilai-view" class="content-view hidden">
-                <button id="back-to-dashboard" class="back-button">← Kembali ke Dashboard</button>
-                <iframe id="apps-script-iframe" src="https://script.google.com/macros/s/AKfycbyrO_bYWOUWqNB014iA-yYvLBVWiJ70sv2GiAJ9sqkOZimxaSi70JvICu79K0re0-P7Gg/preview"></iframe>
-            </div>
-        </div>
+            <section class="nilai-view hidden" id="nilai-view">
+                <div class="nilai-header">
+                    <h3>Cek Nilai Siswa</h3>
+                    <button id="back-to-dashboard" class="back-button">&larr; Kembali ke Dashboard</button>
+                </div>
+                </section>
+        </main>
     </div>
 
     <script src="script.js"></script>
