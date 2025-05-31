@@ -4,18 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const backToDashboardButton = document.getElementById('back-to-dashboard');
     const dashboardView = document.getElementById('dashboard-view');
     const nilaiView = document.getElementById('nilai-view');
-    // const loadingOverlay = document.getElementById('loadingOverlay'); // Dihapus karena overlay sudah dihapus dari HTML
+    const appsScriptIframe = document.getElementById('apps-script-iframe');
     const toggleSidebarButton = document.getElementById('toggle-sidebar');
     const sidebar = document.getElementById('sidebar');
     const menuButtons = document.querySelectorAll('.menu-list a');
-
-    // URL App Web Apps Script-mu (ini URL /exec ASLI-mu)
-    const appsScriptUrl = 'https://script.google.com/macros/s/AKfycbyrO_bYWOUWqNB014iA-yYvLBVWiJ70sv2GiAJ9sqkOZimxaSi70JvICu79K0re0-P7Gg/exec'; // <--- URL KAMU SUDAH ADA DI SINI
-
-    // Fungsi untuk menampilkan/menyembunyikan loading overlay tidak diperlukan lagi
-    // const showLoading = () => { loadingOverlay.classList.remove('hidden'); };
-    // const hideLoading = () => { loadingOverlay.classList.add('hidden'); };
-    // hideLoading(); // Tidak diperlukan lagi
 
     // Handle sidebar toggle for mobile
     toggleSidebarButton.addEventListener('click', () => {
@@ -25,35 +17,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listener untuk tombol "Dashboard Utama"
     homeButton.addEventListener('click', (e) => {
         e.preventDefault();
-        dashboardView.classList.remove('hidden');
+        dashboardView.classList.remove('hidden'); // Tampilkan dashboard utama
         nilaiView.classList.add('hidden'); // Sembunyikan nilai-view
         updateActiveClass(homeButton);
         if (window.innerWidth <= 768) {
             sidebar.classList.add('hidden');
         }
+        appsScriptIframe.style.display = 'none'; // Pastikan iframe tersembunyi di dashboard utama
     });
 
     // Event listener untuk tombol "Cek Nilai Siswa"
     cekNilaiButton.addEventListener('click', (e) => {
-        e.preventDefault(); // Mencegah perilaku default link
-        // Buka App Web Apps Script di tab browser baru
-        window.open(appsScriptUrl, '_blank');
-
-        // Setelah membuka tab baru, kita bisa kembali ke tampilan dashboard utama PWA
-        dashboardView.classList.remove('hidden');
-        nilaiView.classList.add('hidden');
-        updateActiveClass(homeButton); // Set tombol dashboard utama sebagai aktif
+        e.preventDefault();
+        dashboardView.classList.add('hidden'); // Sembunyikan dashboard utama
+        nilaiView.classList.remove('hidden'); // Tampilkan nilai-view (dengan iframe)
+        updateActiveClass(cekNilaiButton);
         if (window.innerWidth <= 768) {
             sidebar.classList.add('hidden');
         }
+        // Muat ulang iframe untuk memastikan kontennya segar
+        appsScriptIframe.src = appsScriptIframe.src; // Memaksa iframe untuk me-refresh
+        appsScriptIframe.style.display = 'block'; // Pastikan iframe terlihat
     });
 
     // Event listener untuk tombol "Kembali ke Dashboard" (di dalam nilai-view)
-    // Fungsi ini masih dipertahankan meskipun tombol cek nilai membuka tab baru
     backToDashboardButton.addEventListener('click', () => {
         dashboardView.classList.remove('hidden');
         nilaiView.classList.add('hidden');
         updateActiveClass(homeButton);
+        appsScriptIframe.style.display = 'none'; // Sembunyikan iframe saat kembali ke dashboard
     });
 
     // Fungsi untuk mengupdate kelas 'active' pada menu
@@ -64,16 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
         activeButton.classList.add('active');
     }
 
-    // Bagian ini dihapus karena tidak ada iframe Apps Script yang dimuat di awal PWA
-    // appsScriptIframe.onload = () => { hideLoading(); };
-    // if (dashboardView.classList.contains('active')) { appsScriptIframe.style.display = 'none'; }
+    // Pastikan iframe tersembunyi saat PWA dimuat pertama kali
+    appsScriptIframe.style.display = 'none';
 });
 
 // Pendaftaran Service Worker untuk PWA
-// Bagian ini penting agar PWA bisa diinstal di perangkat
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js') // Kita akan membuat file sw.js ini nanti
+        navigator.serviceWorker.register('/sw.js')
             .then(registration => {
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
             })
