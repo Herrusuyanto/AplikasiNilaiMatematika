@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" href="icons/app-logo.png">
     <meta name="theme-color" content="#4A90E2"/>
-    <link rel="manifest" href="manifest.json"> </head>
+    <link rel="manifest" href="manifest.json">
+</head>
 <body>
     <div class="app-container">
         <aside class="sidebar" id="sidebar">
@@ -36,29 +37,10 @@
             </header>
 
             <section class="dashboard-view" id="dashboard-view">
-                <div class="welcome-card">
-                    <h3>Selamat Datang di Dashboard Nilai!</h3>
-                    <p>Aplikasi ini membantu Anda mengelola dan melihat nilai siswa dengan mudah. Klik menu di samping untuk memulai.</p>
-                    <img src="icons/matematika_hebat_illustration.png" alt="Ilustrasi Matematika" class="dashboard-illustration">
-                </div>
-
-                <div class="card-grid">
-                    <div class="info-card">
-                        <h4>Jumlah Siswa</h4>
-                        <p class="value">150</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>Rata-rata Nilai Kelas</h4>
-                        <p class="value">85.5</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>Nilai Tertinggi</h4>
-                        <p class="value">98</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>Nilai Terendah</h4>
-                        <p class="value">60</p>
-                    </div>
+                <div class="dashboard-only-content">
+                    <img src="icons/guru_ilustrasi.png" alt="Foto Guru" class="guru-photo">
+                    <h1>Aplikasi Nilai Matematika</h1>
+                    <p class="selamat-datang">Selamat datang di aplikasi penilaian matematika.</p>
                 </div>
             </section>
 
@@ -67,7 +49,8 @@
                     <h3>Cek Nilai Siswa</h3>
                     <button id="back-to-dashboard" class="back-button">&larr; Kembali ke Dashboard</button>
                 </div>
-                </section>
+                <iframe id="apps-script-iframe" src="https://script.google.com/macros/s/AKfycbyrO_bYWOUWqNB014iA-yYvLBVWiJ70sv2GiAJ9sqkOZimxaSi70JvICu79K0re0-P7Gg/exec" frameborder="0"></iframe>
+            </section>
         </main>
     </div>
 
