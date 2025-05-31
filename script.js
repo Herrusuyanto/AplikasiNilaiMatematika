@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const homeButton = document.getElementById('home-button');
     const cekNilaiButton = document.getElementById('cek-nilai-button');
-    const backToDashboardButton = document.getElementById('back-to-dashboard');
     const dashboardView = document.getElementById('dashboard-view');
-    const nilaiView = document.getElementById('nilai-view');
-    const appsScriptIframe = document.getElementById('apps-script-iframe');
+    const nilaiView = document.getElementById('nilai-view'); // Tetap ada di DOM tapi selalu hidden
     const toggleSidebarButton = document.getElementById('toggle-sidebar');
     const sidebar = document.getElementById('sidebar');
     const menuButtons = document.querySelectorAll('.menu-list a');
@@ -18,34 +16,26 @@ document.addEventListener('DOMContentLoaded', () => {
     homeButton.addEventListener('click', (e) => {
         e.preventDefault();
         dashboardView.classList.remove('hidden'); // Tampilkan dashboard utama
-        nilaiView.classList.add('hidden'); // Sembunyikan nilai-view
+        nilaiView.classList.add('hidden'); // Pastikan nilai-view selalu tersembunyi
         updateActiveClass(homeButton);
         if (window.innerWidth <= 768) {
             sidebar.classList.add('hidden');
         }
-        appsScriptIframe.style.display = 'none'; // Pastikan iframe tersembunyi di dashboard utama
     });
 
-    // Event listener untuk tombol "Cek Nilai Siswa"
+    // Event listener untuk tombol "Cek Nilai Siswa" - INI KUNCI UTAMANYA
     cekNilaiButton.addEventListener('click', (e) => {
         e.preventDefault();
-        dashboardView.classList.add('hidden'); // Sembunyikan dashboard utama
-        nilaiView.classList.remove('hidden'); // Tampilkan nilai-view (dengan iframe)
-        updateActiveClass(cekNilaiButton);
+        // Buka Google Apps Script di tab baru
+        window.open('https://script.google.com/macros/s/AKfycbyrO_bYWOUWqNB014iA-yYvLBVWiJ70sv2GiAJ9sqkOZimxaSi70JvICu79K0re0-P7Gg/exec', '_blank');
+
+        // Setelah membuka tab baru, kita tetap di dashboard PWA
+        dashboardView.classList.remove('hidden'); // Pastikan dashboard utama tetap terlihat
+        nilaiView.classList.add('hidden'); // Pastikan nilai-view tersembunyi
+        updateActiveClass(cekNilaiButton); // Tandai menu Cek Nilai aktif
         if (window.innerWidth <= 768) {
             sidebar.classList.add('hidden');
         }
-        // Muat ulang iframe untuk memastikan kontennya segar
-        appsScriptIframe.src = appsScriptIframe.src; // Memaksa iframe untuk me-refresh
-        appsScriptIframe.style.display = 'block'; // Pastikan iframe terlihat
-    });
-
-    // Event listener untuk tombol "Kembali ke Dashboard" (di dalam nilai-view)
-    backToDashboardButton.addEventListener('click', () => {
-        dashboardView.classList.remove('hidden');
-        nilaiView.classList.add('hidden');
-        updateActiveClass(homeButton);
-        appsScriptIframe.style.display = 'none'; // Sembunyikan iframe saat kembali ke dashboard
     });
 
     // Fungsi untuk mengupdate kelas 'active' pada menu
@@ -56,8 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         activeButton.classList.add('active');
     }
 
-    // Pastikan iframe tersembunyi saat PWA dimuat pertama kali
-    appsScriptIframe.style.display = 'none';
+    // Pastikan nilaiView selalu tersembunyi saat PWA dimuat pertama kali
+    nilaiView.classList.add('hidden');
 });
 
 // Pendaftaran Service Worker untuk PWA
