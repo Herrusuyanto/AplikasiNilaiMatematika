@@ -1,59 +1,236 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Aplikasi Nilai</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="apple-touch-icon" href="icons/app-logo.png">
-    <meta name="theme-color" content="#4A90E2"/>
-    <link rel="manifest" href="manifest.json">
-</head>
-<body>
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <img src="icons/app-logo.png" alt="Logo Aplikasi" class="app-logo">
-                <h1 class="app-title">MATEMATIKA HEBAT</h1>
-            </div>
-            <nav class="menu-list">
-                <a href="#" id="home-button" class="active">
-                    <span class="icon">&#127963;</span> Dashboard Utama
-                </a>
-                <a href="#" id="cek-nilai-button">
-                    <span class="icon">&#128220;</span> Cek Nilai Siswa
-                </a>
-                </nav>
-            <div class="sidebar-footer">
-                <p>&copy; 2024 Aplikasi Nilai</p>
-                <p>Version 1.0</p>
-            </div>
-        </aside>
+/* style.css */
 
-        <main class="main-content">
-            <header class="main-header">
-                <button class="toggle-sidebar-button" id="toggle-sidebar">☰</button>
-                <h2>Dashboard Aplikasi Nilai</h2>
-            </header>
+:root {
+    --primary-color: #4A90E2; /* Biru */
+    --secondary-color: #50E3C2; /* Tosca */
+    --accent-color: #F8E71C; /* Kuning */
+    --background-color: #f0f2f5;
+    --card-background: #ffffff;
+    --text-color: #333333;
+    --light-text-color: #666666;
+    --border-color: #e0e0e0;
+}
 
-            <section class="dashboard-view" id="dashboard-view">
-                <div class="dashboard-only-content">
-                    <img src="icons/guru_ilustrasi.png" alt="Foto Guru" class="guru-photo">
-                    <h1>Aplikasi Nilai Matematika</h1>
-                    <p class="selamat-datang">Selamat datang di aplikasi penilaian matematika.</p>
-                </div>
-            </section>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
 
-            <section class="nilai-view hidden" id="nilai-view">
-                <div class="nilai-header">
-                    <h3>Cek Nilai Siswa</h3>
-                    <button id="back-to-dashboard" class="back-button">&larr; Kembali ke Dashboard</button>
-                </div>
-                <iframe id="apps-script-iframe" src="https://script.google.com/macros/s/AKfycbyrO_bYWOUWqNB014iA-yYvLBVWiJ70sv2GiAJ9sqkOZimxaSi70JvICu79K0re0-P7Gg/exec" frameborder="0"></iframe>
-            </section>
-        </main>
-    </div>
+.app-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
 
-    <script src="script.js"></script>
-</body>
-</html>
+.sidebar {
+    width: 250px;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: fixed;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.app-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid var(--accent-color);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.app-title {
+    font-size: 1.5em;
+    margin: 0;
+    color: white;
+}
+
+.menu-list {
+    flex-grow: 1;
+}
+
+.menu-list a {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    margin: 5px 0;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.menu-list a:hover,
+.menu-list a.active {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.menu-list a .icon {
+    margin-right: 15px;
+    font-size: 1.2em;
+}
+
+.sidebar-footer {
+    text-align: center;
+    font-size: 0.8em;
+    color: rgba(255,255,255,0.7);
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.main-content {
+    margin-left: 250px;
+    flex-grow: 1;
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    .toggle-sidebar-button {
+        display: block;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
+}
+
+.main-header {
+    background-color: var(--card-background);
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.main-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    flex-grow: 1;
+}
+
+.toggle-sidebar-button {
+    display: none;
+    margin-right: 15px;
+}
+
+.dashboard-view, .nilai-view {
+    background-color: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Styling for the new minimalist dashboard content */
+.dashboard-only-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 50vh;
+    padding: 20px;
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.dashboard-only-content .guru-photo {
+    max-width: 250px;
+    height: auto;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.dashboard-only-content h1 {
+    font-size: 2.2em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.dashboard-only-content .selamat-datang {
+    font-size: 1.1em;
+    color: var(--light-text-color);
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+.nilai-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.nilai-header h3 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.back-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: darken(var(--secondary-color), 10%);
+}
+
+#apps-script-iframe {
+    width: 100%;
+    height: 600px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
