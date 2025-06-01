@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (homeButton) {
         homeButton.addEventListener('click', (e) => {
             e.preventDefault();
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
         });
     }
 
@@ -118,46 +118,46 @@ document.addEventListener('DOMContentLoaded', () => {
         dashboardCekNilai.addEventListener('click', (e) => {
             e.preventDefault();
             window.open('https://script.google.com/macros/s/AKfycbyrO_bYWOUWqNB014iA-yYvLBVWiJ70sv2GiAJ9sqkOZimxaSi70JvICu79K0re0-P7Gg/exec', '_blank');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
         });
     }
 
     // Event Listener: Kartu lainnya di Dashboard (placeholder)
-    // Saya menambahkan showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+    // Saya menambahkan showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
     // agar setelah alert, tampilan tetap di dashboard dan tombol home aktif.
     if (dashboardMateri) {
         dashboardMateri.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Materi Pelajaran" akan segera hadir!');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
         });
     }
     if (dashboardLatihan) {
         dashboardLatihan.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Latihan Soal" sedang dalam pengembangan!');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
         });
     }
     if (dashboardVideo) {
         dashboardVideo.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Video Pembelajaran" akan segera tersedia!');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
         });
     }
     if (dashboardQuiz) {
         dashboardQuiz.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Quiz Online" siap menguji pengetahuanmu!');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
         });
     }
     if (dashboardInfo) {
         dashboardInfo.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Cek halaman pengumuman untuk informasi terbaru!');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
         });
     }
 
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event Listener: Semua tombol "Kembali ke Dashboard"
     backToDashboardButtons.forEach(button => {
         button.addEventListener('click', () => {
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
         });
     });
 
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set flag agar sidebar tidak otomatis tertutup saat pemuatan pertama
     sidebar.dataset.initialLoad = 'true';
-    showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+    showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
 
 
     // --- Pendaftaran Service Worker untuk PWA ---
