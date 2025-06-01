@@ -23,14 +23,14 @@
 
 /* Styling dasar untuk seluruh body */
 body {
-    font-family: 'Open Sans', sans-serif; /* Menggunakan font Open Sans sebagai default */
-    margin: 0; /* Menghilangkan margin default browser */
-    padding: 0; /* Menghilangkan padding default browser */
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
     background: linear-gradient(135deg, var(--dashboard-gradient-start) 0%, var(--dashboard-gradient-end) 100%);
-    color: var(--text-color); /* Warna teks default */
-    display: flex; /* Menggunakan flexbox untuk layout utama */
-    min-height: 100vh; /* Memastikan body setidaknya setinggi viewport */
-    overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
+    color: var(--text-color);
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* Container utama yang membungkus sidebar dan main-content */
@@ -40,7 +40,7 @@ body {
     min-height: 100vh;
 }
 
-/* --- PERUBAHAN BARU UNTUK SIDEBAR OTOMATIS TERTUTUP --- */
+/* --- PERUBAHAN & PERBAIKAN UNTUK SIDEBAR OTOMATIS TERTUTUP --- */
 
 /* Styling untuk sidebar (menu samping) - DEFAULT KOMPAK */
 .sidebar {
@@ -56,8 +56,8 @@ body {
     left: 0;
     top: 0;
     z-index: 1000;
-    transition: width 0.3s ease-in-out, padding 0.3s ease-in-out; /* Animasi lebar dan padding */
-    overflow-x: hidden; /* Sembunyikan konten horizontal yang terpotong */
+    transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
+    overflow: hidden; /* Sembunyikan konten yang melebihi lebar */
 }
 
 /* Sidebar saat terbuka (expanded) */
@@ -72,8 +72,12 @@ body {
     margin-bottom: 30px;
     padding-bottom: 20px;
     border-bottom: 1px solid rgba(255,255,255,0.2);
-    /* Animasi untuk logo/title saat expand/compact */
-    transition: opacity 0.3s ease;
+    /* Gunakan display: flex dan flex-direction: column untuk logo dan title
+       agar bisa disembunyikan/ditetapkan opacity secara independen */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Pusatkan horizontal */
+    transition: opacity 0.3s ease; /* Transisi untuk opacity */
 }
 
 /* Logo aplikasi di sidebar header */
@@ -97,6 +101,7 @@ body {
     opacity: 0; /* Sembunyikan teks secara default */
     white-space: nowrap; /* Cegah teks pindah baris */
     transition: opacity 0.3s ease;
+    width: var(--sidebar-expanded-width); /* Beri lebar agar tidak collapse saat opacity 0 */
 }
 
 /* Tampilkan judul saat sidebar expanded */
@@ -115,7 +120,7 @@ body {
     align-items: center;
     color: white;
     text-decoration: none;
-    padding: 15px 20px;
+    padding: 15px 20px; /* Padding ini tetap akan terpotong oleh overflow: hidden */
     margin: 5px 0;
     border-radius: 8px;
     transition: background-color 0.3s ease, padding 0.3s ease;
@@ -143,9 +148,11 @@ body {
     opacity: 0; /* Sembunyikan teks secara default */
     margin-left: 0; /* Tidak ada margin kiri untuk teks */
     transition: opacity 0.3s ease, margin-left 0.3s ease;
+    width: 0; /* Tambahkan ini agar lebar teks menjadi 0 saat kompak */
+    overflow: hidden; /* Pastikan teks tersembunyi sepenuhnya */
 }
 
-/* Tampilkan teks menu saat sidebar expanded */
+/* Tampilkan ikon dan teks menu saat sidebar expanded */
 .sidebar.expanded .menu-list a .icon {
     margin-right: 15px; /* Tambahkan margin kanan saat expanded */
 }
@@ -153,6 +160,7 @@ body {
 .sidebar.expanded .menu-list a span:not(.icon) {
     opacity: 1; /* Tampilkan teks */
     margin-left: 0;
+    width: auto; /* Kembalikan lebar otomatis saat expanded */
 }
 
 /* Tooltip untuk menu saat kompak */
@@ -186,6 +194,8 @@ body {
     border-top: 1px solid rgba(255,255,255,0.2);
     opacity: 0; /* Sembunyikan default */
     transition: opacity 0.3s ease;
+    white-space: nowrap; /* Cegah teks pindah baris */
+    width: var(--sidebar-expanded-width); /* Beri lebar agar tidak collapse saat opacity 0 */
 }
 
 /* Tampilkan footer saat sidebar expanded */
@@ -198,35 +208,37 @@ body {
     margin-left: var(--sidebar-compact-width); /* Margin default sesuai sidebar kompak */
     flex-grow: 1;
     padding: 20px;
-    transition: margin-left 0.3s ease-in-out; /* Transisi margin */
+    transition: margin-left 0.3s ease-in-out;
 }
 
 /* Saat sidebar expanded, sesuaikan margin main-content */
-.main-content.shifted { /* Ini akan ditambahkan oleh JS saat sidebar expanded */
+.main-content.shifted {
     margin-left: var(--sidebar-expanded-width);
 }
 
 /* Media query untuk layar mobile (lebar maksimal 768px) */
-/* Di mobile, sidebar akan selalu 'overlay' dan tidak mempengaruhi margin main-content */
 @media (max-width: 768px) {
     .sidebar {
         width: var(--sidebar-expanded-width); /* Full width sidebar di mobile */
         transform: translateX(-100%); /* Sembunyikan default */
         padding: 20px; /* Padding penuh di mobile */
+        /* Pastikan elemen di sidebar selalu terlihat di mobile saat expanded */
+        overflow: visible;
     }
     .sidebar.expanded { /* Di mobile, class expanded berarti ditampilkan */
         transform: translateX(0%);
     }
-    .sidebar:not(.expanded) .menu-list a span:not(.icon) { /* Di mobile, teks menu selalu tampil saat expanded */
+    /* Di mobile, teks menu dan judul selalu tampil saat expanded */
+    .sidebar.expanded .menu-list a span:not(.icon),
+    .sidebar.expanded .app-title,
+    .sidebar.expanded .sidebar-footer {
         opacity: 1;
+        width: auto;
     }
-    .sidebar:not(.expanded) .app-title {
-        opacity: 1;
+    .sidebar.expanded .menu-list a .icon {
+        margin-right: 15px;
     }
-    .sidebar.expanded .app-logo {
-        width: 80px; /* Ukuran normal logo di mobile saat expanded */
-        height: 80px;
-    }
+
     .main-content {
         margin-left: 0; /* Tidak ada margin kiri di mobile */
     }
@@ -242,9 +254,13 @@ body {
         padding: 10px 15px;
         border-radius: 5px;
         cursor: pointer;
-        margin-bottom: 0; /* Hapus margin bottom */
-        font-size: 1.5em; /* Ukuran hamburger */
+        margin-bottom: 0;
+        font-size: 1.5em;
         line-height: 1;
+    }
+    /* Sembunyikan tooltip di mobile */
+    .sidebar:not(.expanded) .menu-list a::after {
+        display: none;
     }
 }
 
@@ -269,7 +285,7 @@ body {
 
 /* Tombol toggle sidebar (hamburger) - tetap tampil di desktop juga */
 .toggle-sidebar-button {
-    display: block; /* Selalu tampilkan tombol hamburger */
+    display: block;
     margin-right: 15px;
     background-color: var(--primary-color);
     color: white;
@@ -277,7 +293,7 @@ body {
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1.5em; /* Ukuran ikon hamburger */
+    font-size: 1.5em;
     line-height: 1;
 }
 /* Di desktop, hilangkan margin-bottom untuk tombol hamburger */
@@ -286,7 +302,6 @@ body {
         margin-bottom: 0;
     }
 }
-
 
 /* Kelas untuk menyembunyikan elemen (digunakan oleh JavaScript) */
 .hidden {
