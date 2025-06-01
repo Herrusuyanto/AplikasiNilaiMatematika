@@ -1,131 +1,150 @@
 /* style.css */
 
+/* Variabel CSS untuk kemudahan perubahan warna */
 :root {
-    --primary-color: #4A90E2; /* Biru */
+    --primary-color: #4A90E2; /* Biru utama */
     --secondary-color: #50E3C2; /* Tosca */
-    --accent-color: #F8E71C; /* Kuning */
-    --background-color: #e0f2f7; /* Background lebih cerah/dingin */
-    --card-background: #ffffff;
-    --text-color: #333333;
-    --light-text-color: #666666;
-    --border-color: #e0e0e0;
+    --accent-color: #F8E71C; /* Kuning (untuk highlight) */
+    --background-color: #e0f2f7; /* Background aplikasi keseluruhan */
+    --card-background: #ffffff; /* Background untuk kartu dan header */
+    --text-color: #333333; /* Warna teks gelap */
+    --light-text-color: #666666; /* Warna teks abu-abu */
+    --border-color: #e0e0e0; /* Warna border umum */
 
-    /* Tambahan untuk gradien */
-    --dashboard-gradient-start: #fdfbfb;
-    --dashboard-gradient-end: #ebedee;
+    /* Gradien untuk background body */
+    --dashboard-gradient-start: #fdfbfb; /* Warna awal gradien */
+    --dashboard-gradient-end: #ebedee; /* Warna akhir gradien */
 }
 
+/* Styling dasar untuk seluruh body */
 body {
-    font-family: 'Open Sans', sans-serif; /* Font utama */
-    margin: 0;
-    padding: 0;
+    font-family: 'Open Sans', sans-serif; /* Menggunakan font Open Sans sebagai default */
+    margin: 0; /* Menghilangkan margin default browser */
+    padding: 0; /* Menghilangkan padding default browser */
+    /* Menggunakan gradien sebagai background body */
     background: linear-gradient(135deg, var(--dashboard-gradient-start) 0%, var(--dashboard-gradient-end) 100%);
-    color: var(--text-color);
-    display: flex;
-    min-height: 100vh;
-    overflow-x: hidden;
+    color: var(--text-color); /* Warna teks default */
+    display: flex; /* Menggunakan flexbox untuk layout utama */
+    min-height: 100vh; /* Memastikan body setidaknya setinggi viewport */
+    overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
 }
 
+/* Container utama yang membungkus sidebar dan main-content */
 .app-container {
     display: flex;
     width: 100%;
     min-height: 100vh;
 }
 
+/* Styling untuk sidebar (menu samping) */
 .sidebar {
-    width: 250px;
-    background-color: var(--primary-color);
-    color: white;
+    width: 250px; /* Lebar sidebar */
+    background-color: var(--primary-color); /* Warna background sidebar */
+    color: white; /* Warna teks di sidebar */
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Konten di sidebar tersusun vertikal */
     padding: 20px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    position: fixed;
-    height: 100%;
-    left: 0;
-    top: 0;
-    z-index: 1000;
-    transition: transform 0.3s ease-in-out;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Bayangan di sisi kanan sidebar */
+    position: fixed; /* Sidebar tetap di tempatnya saat scroll */
+    height: 100%; /* Tinggi sidebar setinggi viewport */
+    left: 0; /* Posisikan di kiri */
+    top: 0; /* Posisikan di atas */
+    z-index: 1000; /* Pastikan sidebar di atas konten lain */
+    transition: transform 0.3s ease-in-out; /* Animasi geser saat sembunyi/muncul */
 }
 
+/* Kelas untuk menyembunyikan sidebar (digunakan oleh JavaScript) */
 .sidebar.hidden {
-    transform: translateX(-100%);
+    transform: translateX(-100%); /* Geser sidebar keluar layar ke kiri */
 }
 
+/* Header di dalam sidebar */
 .sidebar-header {
     text-align: center;
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.2); /* Garis pemisah */
 }
 
+/* Logo aplikasi di sidebar header */
 .app-logo {
     width: 80px;
     height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
+    border-radius: 50%; /* Membuat gambar bulat */
+    object-fit: cover; /* Memastikan gambar mengisi area tanpa terdistorsi */
     margin-bottom: 10px;
-    border: 3px solid var(--accent-color);
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border: 3px solid var(--accent-color); /* Border kuning */
+    box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Bayangan lembut */
 }
 
+/* Judul aplikasi di sidebar header */
 .app-title {
-    font-family: 'Montserrat', sans-serif; /* Font judul sidebar */
+    font-family: 'Montserrat', sans-serif; /* Menggunakan font Montserrat */
     font-size: 1.5em;
     margin: 0;
     color: white;
 }
 
+/* Daftar menu di sidebar */
 .menu-list {
-    flex-grow: 1;
+    flex-grow: 1; /* Memungkinkan daftar menu mengisi ruang yang tersedia */
 }
 
+/* Setiap item menu di sidebar */
 .menu-list a {
-    display: flex;
-    align-items: center;
+    display: flex; /* Menggunakan flexbox untuk ikon dan teks */
+    align-items: center; /* Pusat vertikal ikon dan teks */
     color: white;
-    text-decoration: none;
+    text-decoration: none; /* Menghilangkan garis bawah link */
     padding: 15px 20px;
     margin: 5px 0;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
+    border-radius: 8px; /* Sudut membulat */
+    transition: background-color 0.3s ease; /* Transisi halus saat hover */
 }
 
+/* Efek saat menu dihover atau aktif */
 .menu-list a:hover,
 .menu-list a.active {
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255,255,255,0.2); /* Background transparan saat hover/aktif */
 }
 
+/* Ikon di samping teks menu sidebar */
 .menu-list a .icon {
     margin-right: 15px;
     font-size: 1.2em;
 }
 
+/* Footer sidebar */
 .sidebar-footer {
     text-align: center;
     font-size: 0.8em;
     color: rgba(255,255,255,0.7);
     padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.2);
+    border-top: 1px solid rgba(255,255,255,0.2); /* Garis pemisah */
 }
 
+/* Konten utama di sebelah kanan sidebar */
 .main-content {
-    margin-left: 250px; /* Jarak dari sidebar */
-    flex-grow: 1;
+    margin-left: 250px; /* Memberi ruang di kiri agar tidak tertutup sidebar */
+    flex-grow: 1; /* Memungkinkan konten mengisi ruang yang tersisa */
     padding: 20px;
-    transition: margin-left 0.3s ease-in-out;
+    transition: margin-left 0.3s ease-in-out; /* Transisi margin saat sidebar dibuka/ditutup */
 }
 
+/* Media query untuk layar mobile (lebar maksimal 768px) */
 @media (max-width: 768px) {
     .sidebar {
         transform: translateX(-100%); /* Sembunyikan sidebar di mobile secara default */
+        /* Hapus 'position: fixed' jika ingin sidebar ikut scroll, tapi 'fixed' lebih umum untuk mobile apps */
     }
-    .sidebar.active { /* Class ini akan ditambahkan oleh JS saat tombol hamburger diklik */
-        transform: translateX(0);
+    /* Ketika sidebar aktif (ditambah class 'active' oleh JS) */
+    .sidebar.active {
+        transform: translateX(0); /* Tampilkan sidebar */
     }
     .main-content {
-        margin-left: 0; /* Tidak ada margin kiri di mobile */
+        margin-left: 0; /* Tidak ada margin kiri di mobile, konten mengisi penuh */
     }
+    /* Tombol hamburger untuk toggle sidebar */
     .toggle-sidebar-button {
         display: block; /* Munculkan tombol hamburger di mobile */
         background-color: var(--primary-color);
@@ -138,105 +157,119 @@ body {
     }
 }
 
+/* Header di konten utama */
 .main-header {
-    background-color: var(--card-background);
+    background-color: var(--card-background); /* Background putih */
     padding: 15px 20px;
     border-radius: 8px;
     margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex; /* Menggunakan flexbox untuk tombol dan judul */
+    align-items: center; /* Pusat vertikal */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Bayangan lembut */
 }
 
+/* Judul di header utama */
 .main-header h2 {
-    font-family: 'Montserrat', sans-serif; /* Font judul header */
+    font-family: 'Montserrat', sans-serif; /* Menggunakan font Montserrat */
     margin: 0;
     color: var(--primary-color);
-    flex-grow: 1;
+    flex-grow: 1; /* Judul mengisi ruang yang tersisa */
 }
 
+/* Tombol toggle sidebar (hamburger) */
 .toggle-sidebar-button {
-    display: none; /* Sembunyikan secara default, muncul di mobile */
+    display: none; /* Sembunyikan secara default, hanya muncul di mobile via media query */
     margin-right: 15px;
 }
+/* Pastikan tombol muncul di mobile */
 @media (max-width: 768px) {
     .toggle-sidebar-button {
         display: block; /* Muncul di mobile */
     }
 }
 
+/* Kelas untuk menyembunyikan elemen (digunakan oleh JavaScript) */
 .hidden {
-    display: none !important;
+    display: none !important; /* Penting! Menimpa display lain */
 }
 
-/* --- New Dashboard Grid Styling --- */
+/* --- Styling Baru untuk Dashboard Grid --- */
 .dashboard-view {
-    background-color: transparent; /* Tidak ada background solid di sini */
+    background-color: transparent; /* Tidak ada background solid di sini, karena grid punya padding */
     padding: 0; /* Hapus padding dari view, akan diatur di grid */
     box-shadow: none; /* Hapus shadow dari view */
 }
 
+/* Kontainer grid untuk kartu-kartu menu */
 .dashboard-grid {
     display: grid;
-    /* Membuat kolom responsif: minimal 280px, maksimal 1fr (distribusi rata) */
+    /* Membuat kolom responsif:
+       - auto-fit: menyesuaikan jumlah kolom berdasarkan lebar
+       - minmax(280px, 1fr): setiap kolom minimal 280px, jika ada sisa ruang akan didistribusi rata */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px; /* Jarak antar kartu */
     padding: 20px; /* Padding di sekitar grid */
-    animation: fadeIn 1s ease-out; /* Animasi kemunculan */
+    animation: fadeIn 1s ease-out; /* Animasi kemunculan lembut */
 }
 
+/* Styling untuk setiap kartu menu di dashboard */
 .menu-card {
-    background-color: var(--card-background);
+    background-color: var(--card-background); /* Background putih */
     padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 15px; /* Sudut membulat */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Bayangan lembut */
     text-align: center;
-    text-decoration: none; /* Hapus garis bawah link */
+    text-decoration: none; /* Menghilangkan garis bawah link */
     color: var(--text-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transisi halus untuk hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transisi halus saat hover */
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column; /* Konten di dalam kartu tersusun vertikal */
+    align-items: center; /* Pusat horizontal */
+    justify-content: center; /* Pusat vertikal */
     min-height: 180px; /* Tinggi minimum kartu */
 }
 
+/* Efek saat kartu dihover */
 .menu-card:hover {
     transform: translateY(-8px); /* Sedikit naik saat hover */
     box-shadow: 0 12px 25px rgba(0,0,0,0.2); /* Bayangan lebih kuat saat hover */
 }
 
+/* Styling untuk ikon di dalam kartu menu */
 .menu-card .card-icon {
-    font-size: 3.5em; /* Ukuran ikon */
-    color: var(--primary-color);
+    font-size: 3.5em; /* Ukuran ikon yang besar */
+    color: var(--primary-color); /* Warna biru utama */
     margin-bottom: 15px;
 }
 
+/* Styling untuk judul di dalam kartu menu (h3) */
 .menu-card h3 {
-    font-family: 'Montserrat', sans-serif; /* Font judul kartu */
+    font-family: 'Montserrat', sans-serif; /* Menggunakan font Montserrat */
     font-size: 1.5em;
     margin-bottom: 10px;
     color: var(--primary-color);
 }
 
+/* Styling untuk paragraf deskripsi di dalam kartu menu */
 .menu-card p {
     font-size: 0.95em;
     color: var(--light-text-color);
-    line-height: 1.5;
+    line-height: 1.5; /* Jarak antar baris */
 }
 
-/* --- App Info View Styling (for Settings, About, Help) --- */
+/* --- Styling untuk Tampilan Halaman Info (Pengaturan, Tentang, Bantuan) --- */
 .app-info-view {
-    background-color: var(--card-background);
+    background-color: var(--card-background); /* Background putih */
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    min-height: 60vh; /* Tinggi minimum */
+    min-height: 60vh; /* Tinggi minimum halaman info */
     display: flex;
     flex-direction: column;
-    animation: fadeIn 0.8s ease-out; /* Animasi fade in untuk halaman info */
+    animation: fadeIn 0.8s ease-out; /* Animasi fade in saat halaman muncul */
 }
 
+/* Judul di halaman info (h3) */
 .app-info-content h3 {
     font-family: 'Montserrat', sans-serif;
     color: var(--primary-color);
@@ -244,6 +277,7 @@ body {
     font-size: 1.8em;
 }
 
+/* Paragraf dan daftar di halaman info */
 .app-info-content p, .app-info-content ul {
     font-size: 1.1em;
     color: var(--text-color);
@@ -251,35 +285,37 @@ body {
     margin-bottom: 15px;
 }
 .app-info-content ul {
-    list-style-type: disc;
+    list-style-type: disc; /* Gaya bullet point */
     margin-left: 25px;
 }
 
+/* Tombol 'Kembali ke Dashboard' */
 .back-to-dashboard-button {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color); /* Warna tosca */
     color: white;
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9em;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease; /* Transisi halus saat hover */
     margin-top: 20px;
-    align-self: flex-start; /* Meletakkan tombol di kiri bawah */
+    align-self: flex-start; /* Meletakkan tombol di kiri bawah dalam flex container */
 }
 
+/* Efek hover pada tombol 'Kembali ke Dashboard' */
 .back-to-dashboard-button:hover {
-    background-color: #43b39d; /* Warna hover sedikit lebih gelap */
+    background-color: #43b39d; /* Warna tosca sedikit lebih gelap */
 }
 
-/* --- Animasi Fade-in (untuk elemen yang muncul) --- */
+/* --- Keyframes untuk Animasi Fade-in --- */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(20px); /* Mulai dari sedikit di bawah */
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0); /* Berakhir di posisi normal */
     }
 }
