@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Nilai MATEMATIKA</title>
+    <title>Dashboard Aplikasi Nilai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" href="icons/app-logo.png">
     <meta name="theme-color" content="#4A90E2"/>
@@ -20,12 +21,18 @@
                 <a href="#" id="home-button" class="active">
                     <span class="icon">&#127963;</span> Dashboard Utama
                 </a>
-                <a href="#" id="cek-nilai-button">
-                    <span class="icon">&#128220;</span> Cek Nilai Siswa
+                <a href="#" id="setting-button">
+                    <span class="icon">&#9881;</span> Pengaturan
                 </a>
-                </nav>
+                <a href="#" id="about-button">
+                    <span class="icon">&#8505;</span> Tentang Aplikasi
+                </a>
+                <a href="#" id="help-button">
+                    <span class="icon">&#128712;</span> Bantuan
+                </a>
+            </nav>
             <div class="sidebar-footer">
-                <p>&copy; Aplikasi Nilai by HERRU SUYANTO, S.Pd., Gr.</p>
+                <p>&copy; 2024 Aplikasi Nilai</p>
                 <p>Version 1.0</p>
             </div>
         </aside>
@@ -33,20 +40,75 @@
         <main class="main-content">
             <header class="main-header">
                 <button class="toggle-sidebar-button" id="toggle-sidebar">☰</button>
-                <h2>Aplikasi Nilai MATEMATIKA</h2>
+                <h2 id="main-header-title">Dashboard Aplikasi Nilai</h2>
             </header>
 
             <section class="dashboard-view" id="dashboard-view">
-                <div class="dashboard-only-content">
-                    <img src="icons/guru_ilustrasi.png" alt="Foto Guru" class="guru-photo">
-                    <h1>Aplikasi Nilai Matematika</h1>
-                    <h1>HERRU SUYANTO, S.Pd., Gr.</h1>
-                    <p class="selamat-datang">Selamat Datang di Aplikasi Penilaian Matematika Herbat.</p>
+                <div class="dashboard-grid">
+                    <a href="#" class="menu-card" id="dashboard-cek-nilai">
+                        <span class="card-icon">&#128220;</span> <h3>Cek Nilai Siswa</h3>
+                        <p>Lihat rekapitulasi nilai Anda.</p>
+                    </a>
+
+                    <a href="#" class="menu-card" id="dashboard-materi">
+                        <span class="card-icon">&#128218;</span> <h3>Materi Pelajaran</h3>
+                        <p>Akses modul dan bahan ajar.</p>
+                    </a>
+
+                    <a href="#" class="menu-card" id="dashboard-latihan">
+                        <span class="card-icon">&#128221;</span> <h3>Latihan Soal</h3>
+                        <p>Kerjakan soal-soal untuk mengasah kemampuan.</p>
+                    </a>
+
+                    <a href="#" class="menu-card" id="dashboard-video">
+                        <span class="card-icon">&#127916;</span> <h3>Video Pembelajaran</h3>
+                        <p>Tonton video penjelasan materi.</p>
+                    </a>
+
+                    <a href="#" class="menu-card" id="dashboard-quiz">
+                        <span class="card-icon">&#128187;</span> <h3>Quiz Online</h3>
+                        <p>Ikuti kuis interaktif untuk evaluasi.</p>
+                    </a>
+
+                    <a href="#" class="menu-card" id="dashboard-info">
+                        <span class="card-icon">&#128227;</span> <h3>Pengumuman</h3>
+                        <p>Informasi terbaru dari guru.</p>
+                    </a>
+
                 </div>
             </section>
 
-            <section class="nilai-view hidden" id="nilai-view">
-                </section>
+            <section class="app-info-view hidden" id="setting-view">
+                <div class="app-info-content">
+                    <h3>Pengaturan Aplikasi</h3>
+                    <p>Konten pengaturan akan muncul di sini. (misal: pengaturan tema, notifikasi, dll)</p>
+                    <button class="back-to-dashboard-button back-button">&larr; Kembali ke Dashboard</button>
+                </div>
+            </section>
+
+            <section class="app-info-view hidden" id="about-view">
+                <div class="app-info-content">
+                    <h3>Tentang Aplikasi</h3>
+                    <p>Aplikasi Nilai Matematika dibuat untuk membantu siswa melihat nilai dan mengakses materi pembelajaran.</p>
+                    <p>Versi: 1.0.0</p>
+                    <p>Pengembang: Herrusuyanto</p>
+                    <button class="back-to-dashboard-button back-button">&larr; Kembali ke Dashboard</button>
+                </div>
+            </section>
+
+            <section class="app-info-view hidden" id="help-view">
+                <div class="app-info-content">
+                    <h3>Bantuan</h3>
+                    <p>Jika Anda menemui kesulitan, silakan hubungi guru matematika Anda atau admin.</p>
+                    <p>FAQ:</p>
+                    <ul>
+                        <li>Bagaimana cara melihat nilai? Klik 'Cek Nilai Siswa'.</li>
+                        <li>Dimana saya bisa menemukan materi? Klik 'Materi Pelajaran'.</li>
+                    </ul>
+                    <button class="back-to-dashboard-button back-button">&larr; Kembali ke Dashboard</button>
+                </div>
+            </section>
+
         </main>
     </div>
 
