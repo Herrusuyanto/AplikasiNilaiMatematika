@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const dashboardMateri = document.getElementById('dashboard-materi');
     const dashboardLatihan = document.getElementById('dashboard-latihan');
     const dashboardVideo = document.getElementById('dashboard-video');
-    const dashboardQuiz = document.getElementById('dashboard-quiz'); // Kartu Quiz Online
-    const dashboardInfo = document.getElementById('dashboard-info');   // Kartu Pengumuman
+    const dashboardQuiz = document.getElementById('dashboard-quiz');
+    const dashboardInfo = document.getElementById('dashboard-info');
 
     // Main Content Views (bagian-bagian konten yang akan ditampilkan/disembunyikan)
     const dashboardView = document.getElementById('dashboard-view');
@@ -29,18 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Back to Dashboard Buttons (tombol 'Kembali ke Dashboard' di halaman info)
     const backToDashboardButtons = document.querySelectorAll('.back-to-dashboard-button');
 
-
-    // Fungsi untuk mengubah tampilan utama
-    // viewToShow: elemen section yang akan ditampilkan (misal: dashboardView, settingView)
-    // headerTitle: teks yang akan ditampilkan di header utama (misal: 'Dashboard Aplikasi Nilai')
-    // activeSidebarButton: tombol sidebar yang akan diberi kelas 'active' (misal: homeButton)
+    // --- Fungsi Utama untuk Mengganti Tampilan ---
     function showView(viewToShow, headerTitle, activeSidebarButton = null) {
         // Sembunyikan semua tampilan utama
         const allViews = [dashboardView, settingView, aboutView, helpView];
         allViews.forEach(view => view.classList.add('hidden'));
 
         // Tampilkan tampilan yang dipilih
-        viewToShow.classList.remove('hidden');
+        if (viewToShow) { // Pastikan viewToShow tidak null/undefined
+            viewToShow.classList.remove('hidden');
+        }
 
         // Perbarui judul di header utama
         mainHeaderTitle.textContent = headerTitle;
@@ -49,78 +47,67 @@ document.addEventListener('DOMContentLoaded', () => {
         menuButtons.forEach(button => {
             button.classList.remove('active');
         });
-        if (activeSidebarButton) { // Pastikan tombol aktifnya ada
+        if (activeSidebarButton) {
             activeSidebarButton.classList.add('active');
         }
 
-        /* --- PERUBAHAN BARU UNTUK SIDEBAR OTOMATIS TERTUTUP --- */
-        // Setelah memilih menu, otomatis tutup sidebar (kembali ke mode kompak)
-        // Kecuali jika ini adalah inisialisasi awal dan sidebar belum di-toggle sama sekali
-        // Cek jika ukuran layar adalah mobile ATAU sidebar saat ini dalam mode expanded
+        // Otomatis tutup sidebar setelah memilih menu, terutama di mobile
+        // Atau jika sidebar sedang dalam mode expanded di desktop
         if (window.innerWidth <= 768 || sidebar.classList.contains('expanded')) {
-            // Hindari menutup sidebar jika itu adalah inisialisasi awal di desktop
+            // Kecuali jika ini adalah inisialisasi awal di desktop (agar sidebar tetap expanded)
             if (!(window.innerWidth > 768 && sidebar.dataset.initialLoad === 'true')) {
-                toggleSidebar(true); // Panggil fungsi toggle untuk menutup sidebar (forceClose = true)
+                toggleSidebar(true); // Memaksa sidebar untuk menutup
             }
         }
-        // Hapus flag initialLoad setelah pemuatan pertama
+        // Hapus flag initialLoad setelah pemuatan pertama (hanya untuk kontrol inisialisasi)
         if (sidebar.dataset.initialLoad) {
             delete sidebar.dataset.initialLoad;
         }
     }
 
-    // Fungsi untuk toggle (membuka/menutup) sidebar
-    // forceClose: boolean, jika true akan memaksa sidebar untuk menutup
+    // --- Fungsi untuk Toggle (Membuka/Menutup) Sidebar ---
     function toggleSidebar(forceClose = false) {
-        if (forceClose && !sidebar.classList.contains('expanded')) {
-            // Jika memaksa menutup dan sidebar sudah tertutup, jangan lakukan apa-apa
-            return;
-        }
-
         if (forceClose) {
+            // Jika dipaksa tutup, hapus class 'expanded'
             sidebar.classList.remove('expanded');
         } else {
-            sidebar.classList.toggle('expanded'); // Toggle jika tidak dipaksa
+            // Jika tidak dipaksa, toggle class 'expanded'
+            sidebar.classList.toggle('expanded');
         }
-        
-        if (window.innerWidth > 768) { // Hanya pengaruhi margin main-content di desktop
+
+        // Sesuaikan margin main-content hanya di desktop
+        if (window.innerWidth > 768) {
             if (sidebar.classList.contains('expanded')) {
                 mainContent.classList.add('shifted');
             } else {
                 mainContent.classList.remove('shifted');
             }
         }
-        // Di mobile, main-content selalu 0 margin-left, sidebar overlay
-        // Perubahan ini hanya untuk visual, bukan fungsional di mobile
-        if (window.innerWidth <= 768) {
-            if (sidebar.classList.contains('expanded')) {
-                // Saat sidebar terbuka di mobile, mungkin ingin overlay ke kanan, tapi kita sudah handle di CSS
-            } else {
-                // Saat sidebar tertutup di mobile, pastikan tidak ada sisa margin
-                mainContent.style.marginLeft = '0';
-            }
-        }
     }
 
+    // --- Event Listeners ---
+
     // Event Listener: Tombol Hamburger (toggle sidebar)
-    toggleSidebarButton.addEventListener('click', () => {
-        toggleSidebar();
-    });
+    if (toggleSidebarButton) {
+        toggleSidebarButton.addEventListener('click', () => {
+            toggleSidebar();
+        });
+    }
 
     // Event Listener: Tombol "Dashboard Utama" di Sidebar
-    homeButton.addEventListener('click', (e) => {
-        e.preventDefault(); // Mencegah link pindah halaman
-        showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
-    });
+    if (homeButton) {
+        homeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+        });
+    }
 
-    // Tambahkan atribut data-tooltip untuk semua tombol menu di sidebar
-    // Ini akan digunakan oleh CSS untuk tooltip saat sidebar kompak
+    // Tambahkan atribut data-tooltip untuk semua tombol menu di sidebar (untuk CSS tooltip)
     menuButtons.forEach(button => {
-        // Cari span yang bukan icon
         const textSpan = button.querySelector('span:not(.icon)');
-        if (textSpan) { // Pastikan elemen span ditemukan
+        if (textSpan) {
             const textContent = textSpan.textContent.trim();
-            if (textContent) { // Hanya tambahkan jika ada teks konten
+            if (textContent) {
                 button.setAttribute('data-tooltip', textContent);
             }
         }
@@ -131,72 +118,68 @@ document.addEventListener('DOMContentLoaded', () => {
         dashboardCekNilai.addEventListener('click', (e) => {
             e.preventDefault();
             window.open('https://script.google.com/macros/s/AKfycbyrO_bYWOUWqNB014iA-yYvLBVWiJ70sv2GiAJ9sqkOZimxaSi70JvICu79K0re0-P7Gg/exec', '_blank');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton); // Kembali ke dashboard setelah alert
+            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
         });
     }
 
-    // Event Listener: Kartu "Materi Pelajaran" (placeholder)
+    // Event Listener: Kartu lainnya di Dashboard (placeholder)
+    // Saya menambahkan showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+    // agar setelah alert, tampilan tetap di dashboard dan tombol home aktif.
     if (dashboardMateri) {
         dashboardMateri.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Materi Pelajaran" akan segera hadir!');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton); // Kembali ke dashboard setelah alert
+            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
         });
     }
-
-    // Event Listener: Kartu "Latihan Soal" (placeholder)
     if (dashboardLatihan) {
         dashboardLatihan.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Latihan Soal" sedang dalam pengembangan!');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton); // Kembali ke dashboard setelah alert
+            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
         });
     }
-
-    // Event Listener: Kartu "Video Pembelajaran" (placeholder)
     if (dashboardVideo) {
         dashboardVideo.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Video Pembelajaran" akan segera tersedia!');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton); // Kembali ke dashboard setelah alert
+            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
         });
     }
-
-    // Event Listener: Kartu "Quiz Online" (placeholder)
     if (dashboardQuiz) {
         dashboardQuiz.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Quiz Online" siap menguji pengetahuanmu!');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton); // Kembali ke dashboard setelah alert
+            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
         });
     }
-
-    // Event Listener: Kartu "Pengumuman" (placeholder)
     if (dashboardInfo) {
         dashboardInfo.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Cek halaman pengumuman untuk informasi terbaru!');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton); // Kembali ke dashboard setelah alert
+            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
         });
     }
 
-    // Event Listener: Tombol "Pengaturan" di Sidebar
-    settingButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        showView(settingView, 'Pengaturan Aplikasi', settingButton);
-    });
-
-    // Event Listener: Tombol "Tentang Aplikasi" di Sidebar
-    aboutButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        showView(aboutView, 'Tentang Aplikasi', aboutButton);
-    });
-
-    // Event Listener: Tombol "Bantuan" di Sidebar
-    helpButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        showView(helpView, 'Bantuan', helpButton);
-    });
+    // Event Listener: Tombol "Pengaturan", "Tentang", "Bantuan" di Sidebar
+    if (settingButton) {
+        settingButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            showView(settingView, 'Pengaturan Aplikasi', settingButton);
+        });
+    }
+    if (aboutButton) {
+        aboutButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            showView(aboutView, 'Tentang Aplikasi', aboutButton);
+        });
+    }
+    if (helpButton) {
+        helpButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            showView(helpView, 'Bantuan', helpButton);
+        });
+    }
 
     // Event Listener: Semua tombol "Kembali ke Dashboard"
     backToDashboardButtons.forEach(button => {
@@ -205,32 +188,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Inisialisasi: Tampilkan dashboard utama saat aplikasi pertama kali dimuat
+    // --- Inisialisasi Kondisi Awal Sidebar dan Tampilan ---
+    // Fungsi untuk mengatur kondisi awal sidebar berdasarkan ukuran layar
+    function setInitialSidebarState() {
+        if (window.innerWidth > 768) { // Desktop
+            sidebar.classList.add('expanded');
+            mainContent.classList.add('shifted');
+        } else { // Mobile
+            sidebar.classList.remove('expanded'); // Pastikan tidak ada class expanded
+            // Di mobile, main-content harus punya margin-left 0 (sudah di CSS)
+        }
+    }
+
+    // Panggil fungsi inisialisasi saat DOMContentLoaded
+    setInitialSidebarState();
+    // Panggil lagi saat jendela diubah ukurannya (misal: rotasi HP, resize browser)
+    window.addEventListener('resize', setInitialSidebarState);
+
     // Set flag agar sidebar tidak otomatis tertutup saat pemuatan pertama
     sidebar.dataset.initialLoad = 'true';
     showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
 
-    // Untuk memastikan sidebar berfungsi dengan baik saat pertama kali dimuat
-    // Ini menangani kasus refresh atau navigasi langsung ke URL
-    // Di desktop, sidebar defaultnya expanded. Di mobile, sidebar defaultnya hidden (kompak).
-    function setInitialSidebarState() {
-        if (window.innerWidth > 768) {
-            sidebar.classList.add('expanded');
-            mainContent.classList.add('shifted');
-        } else {
-            sidebar.classList.remove('expanded'); // Pastikan tidak ada class expanded
-            // Di mobile, main-content harus punya margin-left 0, sudah di CSS
-        }
-    }
 
-    // Set kondisi awal sidebar saat DOMContentLoaded
-    setInitialSidebarState();
-
-    // Sesuaikan sidebar saat ukuran jendela berubah (misal dari desktop ke mobile)
-    window.addEventListener('resize', setInitialSidebarState);
-
-
-    // Pendaftaran Service Worker untuk PWA
+    // --- Pendaftaran Service Worker untuk PWA ---
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js')
