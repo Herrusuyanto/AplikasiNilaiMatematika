@@ -56,8 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
         /* --- PERUBAHAN BARU UNTUK SIDEBAR OTOMATIS TERTUTUP --- */
         // Setelah memilih menu, otomatis tutup sidebar (kembali ke mode kompak)
         // Kecuali jika ini adalah inisialisasi awal dan sidebar belum di-toggle sama sekali
-        if (sidebar.classList.contains('expanded') && !sidebar.dataset.initialLoad) {
-            toggleSidebar(); // Panggil fungsi toggle untuk menutup sidebar
+        // Cek jika ukuran layar adalah mobile ATAU sidebar saat ini dalam mode expanded
+        if (window.innerWidth <= 768 || sidebar.classList.contains('expanded')) {
+            // Hindari menutup sidebar jika itu adalah inisialisasi awal di desktop
+            if (!(window.innerWidth > 768 && sidebar.dataset.initialLoad === 'true')) {
+                toggleSidebar(true); // Panggil fungsi toggle untuk menutup sidebar (forceClose = true)
+            }
         }
         // Hapus flag initialLoad setelah pemuatan pertama
         if (sidebar.dataset.initialLoad) {
@@ -66,10 +70,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Fungsi untuk toggle (membuka/menutup) sidebar
-    function toggleSidebar() {
-        sidebar.classList.toggle('expanded'); // Tambah/hapus kelas 'expanded'
+    // forceClose: boolean, jika true akan memaksa sidebar untuk menutup
+    function toggleSidebar(forceClose = false) {
+        if (forceClose && !sidebar.classList.contains('expanded')) {
+            // Jika memaksa menutup dan sidebar sudah tertutup, jangan lakukan apa-apa
+            return;
+        }
+
+        if (forceClose) {
+            sidebar.classList.remove('expanded');
+        } else {
+            sidebar.classList.toggle('expanded'); // Toggle jika tidak dipaksa
+        }
+        
         if (window.innerWidth > 768) { // Hanya pengaruhi margin main-content di desktop
-            mainContent.classList.toggle('shifted'); // Tambah/hapus kelas 'shifted'
+            if (sidebar.classList.contains('expanded')) {
+                mainContent.classList.add('shifted');
+            } else {
+                mainContent.classList.remove('shifted');
+            }
+        }
+        // Di mobile, main-content selalu 0 margin-left, sidebar overlay
+        // Perubahan ini hanya untuk visual, bukan fungsional di mobile
+        if (window.innerWidth <= 768) {
+            if (sidebar.classList.contains('expanded')) {
+                // Saat sidebar terbuka di mobile, mungkin ingin overlay ke kanan, tapi kita sudah handle di CSS
+            } else {
+                // Saat sidebar tertutup di mobile, pastikan tidak ada sisa margin
+                mainContent.style.marginLeft = '0';
+            }
         }
     }
 
@@ -87,9 +116,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Tambahkan atribut data-tooltip untuk semua tombol menu di sidebar
     // Ini akan digunakan oleh CSS untuk tooltip saat sidebar kompak
     menuButtons.forEach(button => {
-        const textContent = button.querySelector('span:not(.icon)').textContent.trim();
-        if (textContent) { // Hanya tambahkan jika ada teks konten
-            button.setAttribute('data-tooltip', textContent);
+        // Cari span yang bukan icon
+        const textSpan = button.querySelector('span:not(.icon)');
+        if (textSpan) { // Pastikan elemen span ditemukan
+            const textContent = textSpan.textContent.trim();
+            if (textContent) { // Hanya tambahkan jika ada teks konten
+                button.setAttribute('data-tooltip', textContent);
+            }
         }
     });
 
@@ -98,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dashboardCekNilai.addEventListener('click', (e) => {
             e.preventDefault();
             window.open('https://script.google.com/macros/s/AKfycbyrO_bYWOUWqNB014iA-yYvLBVWiJ70sv2GiAJ9sqkOZimxaSi70JvICu79K0re0-P7Gg/exec', '_blank');
-            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton);
+            showView(dashboardView, 'Dashboard Aplikasi Nilai', homeButton); // Kembali ke dashboard setelah alert
         });
     }
 
@@ -179,15 +212,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Untuk memastikan sidebar berfungsi dengan baik saat pertama kali dimuat
     // Ini menangani kasus refresh atau navigasi langsung ke URL
-    if (window.innerWidth > 768) { // Di desktop, sidebar defaultnya expanded
-        sidebar.classList.add('expanded');
-        mainContent.classList.add('shifted');
-    } else { // Di mobile, sidebar defaultnya hidden (kompak)
-        sidebar.classList.remove('expanded'); // Pastikan tidak ada class expanded
+    // Di desktop, sidebar defaultnya expanded. Di mobile, sidebar defaultnya hidden (kompak).
+    function setInitialSidebarState() {
+        if (window.innerWidth > 768) {
+            sidebar.classList.add('expanded');
+            mainContent.classList.add('shifted');
+        } else {
+            sidebar.classList.remove('expanded'); // Pastikan tidak ada class expanded
+            // Di mobile, main-content harus punya margin-left 0, sudah di CSS
+        }
     }
 
+    // Set kondisi awal sidebar saat DOMContentLoaded
+    setInitialSidebarState();
 
-    // Pendaftaran Service Worker untuk PWA (pastikan ini ada jika ingin fitur instalasi)
+    // Sesuaikan sidebar saat ukuran jendela berubah (misal dari desktop ke mobile)
+    window.addEventListener('resize', setInitialSidebarState);
+
+
+    // Pendaftaran Service Worker untuk PWA
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js')
