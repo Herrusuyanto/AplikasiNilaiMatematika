@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM Elements (element HTML yang akan kita interaksikan)
+    // DOM Elements
     const homeButton = document.getElementById('home-button');
     const toggleSidebarButton = document.getElementById('toggle-sidebar');
     const sidebar = document.getElementById('sidebar');
-    const menuButtons = document.querySelectorAll('.menu-list a'); // Semua tombol di sidebar
-    const mainHeaderTitle = document.getElementById('main-header-title'); // Judul di header utama
-    const mainContent = document.querySelector('.main-content'); // Main content untuk mengatur margin
+    const menuButtons = document.querySelectorAll('.menu-list a');
+    const mainHeaderTitle = document.getElementById('main-header-title');
+    const mainContent = document.querySelector('.main-content');
 
-    // Dashboard Menu Cards (kartu-kartu menu di dashboard)
+    // Dashboard Menu Cards
     const dashboardCekNilai = document.getElementById('dashboard-cek-nilai');
     const dashboardMateri = document.getElementById('dashboard-materi');
     const dashboardLatihan = document.getElementById('dashboard-latihan');
@@ -15,18 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const dashboardQuiz = document.getElementById('dashboard-quiz');
     const dashboardInfo = document.getElementById('dashboard-info');
 
-    // Main Content Views (bagian-bagian konten yang akan ditampilkan/disembunyikan)
+    // Main Content Views
     const dashboardView = document.getElementById('dashboard-view');
     const settingView = document.getElementById('setting-view');
     const aboutView = document.getElementById('about-view');
     const helpView = document.getElementById('help-view');
 
-    // Sidebar Menu Buttons (tombol menu di sidebar)
+    // Sidebar Menu Buttons
     const settingButton = document.getElementById('setting-button');
     const aboutButton = document.getElementById('about-button');
     const helpButton = document.getElementById('help-button');
 
-    // Back to Dashboard Buttons (tombol 'Kembali ke Dashboard' di halaman info)
+    // Back to Dashboard Buttons
     const backToDashboardButtons = document.querySelectorAll('.back-to-dashboard-button');
 
     // --- Fungsi Utama untuk Mengganti Tampilan ---
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         allViews.forEach(view => view.classList.add('hidden'));
 
         // Tampilkan tampilan yang dipilih
-        if (viewToShow) { // Pastikan viewToShow tidak null/undefined
+        if (viewToShow) {
             viewToShow.classList.remove('hidden');
         }
 
@@ -51,37 +51,29 @@ document.addEventListener('DOMContentLoaded', () => {
             activeSidebarButton.classList.add('active');
         }
 
-        // Otomatis tutup sidebar setelah memilih menu, terutama di mobile
-        // Atau jika sidebar sedang dalam mode expanded di desktop
-        if (window.innerWidth <= 768 || sidebar.classList.contains('expanded')) {
-            // Kecuali jika ini adalah inisialisasi awal di desktop (agar sidebar tetap expanded)
-            if (!(window.innerWidth > 768 && sidebar.dataset.initialLoad === 'true')) {
-                toggleSidebar(true); // Memaksa sidebar untuk menutup
-            }
-        }
-        // Hapus flag initialLoad setelah pemuatan pertama (hanya untuk kontrol inisialisasi)
-        if (sidebar.dataset.initialLoad) {
-            delete sidebar.dataset.initialLoad;
-        }
+        // --- Perubahan untuk memastikan sidebar selalu menutup setelah klik menu ---
+        toggleSidebar(true);
     }
 
     // --- Fungsi untuk Toggle (Membuka/Menutup) Sidebar ---
     function toggleSidebar(forceClose = false) {
         if (forceClose) {
-            // Jika dipaksa tutup, hapus class 'expanded'
             sidebar.classList.remove('expanded');
-        } else {
-            // Jika tidak dipaksa, toggle class 'expanded'
-            sidebar.classList.toggle('expanded');
-        }
-
-        // Sesuaikan margin main-content hanya di desktop
-        if (window.innerWidth > 768) {
-            if (sidebar.classList.contains('expanded')) {
-                mainContent.classList.add('shifted');
-            } else {
-                mainContent.classList.remove('shifted');
+            if (window.innerWidth > 768) {
+                 mainContent.classList.remove('shifted');
             }
+        } else {
+            sidebar.classList.toggle('expanded');
+            if (window.innerWidth > 768) {
+                if (sidebar.classList.contains('expanded')) {
+                    mainContent.classList.add('shifted');
+                } else {
+                    mainContent.classList.remove('shifted');
+                }
+            }
+        }
+        if (window.innerWidth <= 768) {
+            mainContent.classList.remove('shifted');
         }
     }
 
@@ -98,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (homeButton) {
         homeButton.addEventListener('click', (e) => {
             e.preventDefault();
-            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
+            showView(dashboardView, 'APLIKASI NILAI MATEMATIKA', homeButton); // <-- PERUBAHAN DI SINI
         });
     }
 
@@ -118,46 +110,44 @@ document.addEventListener('DOMContentLoaded', () => {
         dashboardCekNilai.addEventListener('click', (e) => {
             e.preventDefault();
             window.open('https://script.google.com/macros/s/AKfycbyrO_bYWOUWqNB014iA-yYvLBVWiJ70sv2GiAJ9sqkOZimxaSi70JvICu79K0re0-P7Gg/exec', '_blank');
-            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
+            showView(dashboardView, 'APLIKASI NILAI MATEMATIKA', homeButton); // <-- PERUBAHAN DI SINI
         });
     }
 
     // Event Listener: Kartu lainnya di Dashboard (placeholder)
-    // Saya menambahkan showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
-    // agar setelah alert, tampilan tetap di dashboard dan tombol home aktif.
     if (dashboardMateri) {
         dashboardMateri.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Materi Pelajaran" akan segera hadir!');
-            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
+            showView(dashboardView, 'APLIKASI NILAI MATEMATIKA', homeButton); // <-- PERUBAHAN DI SINI
         });
     }
     if (dashboardLatihan) {
         dashboardLatihan.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Latihan Soal" sedang dalam pengembangan!');
-            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
+            showView(dashboardView, 'APLIKASI NILAI MATEMATIKA', homeButton); // <-- PERUBAHAN DI SINI
         });
     }
     if (dashboardVideo) {
         dashboardVideo.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Video Pembelajaran" akan segera tersedia!');
-            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
+            showView(dashboardView, 'APLIKASI NILAI MATEMATIKA', homeButton); // <-- PERUBAHAN DI SINI
         });
     }
     if (dashboardQuiz) {
         dashboardQuiz.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Fitur "Quiz Online" siap menguji pengetahuanmu!');
-            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
+            showView(dashboardView, 'APLIKASI NILAI MATEMATIKA', homeButton); // <-- PERUBAHAN DI SINI
         });
     }
     if (dashboardInfo) {
         dashboardInfo.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Cek halaman pengumuman untuk informasi terbaru!');
-            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
+            showView(dashboardView, 'APLIKASI NILAI MATEMATIKA', homeButton); // <-- PERUBAHAN DI SINI
         });
     }
 
@@ -184,31 +174,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event Listener: Semua tombol "Kembali ke Dashboard"
     backToDashboardButtons.forEach(button => {
         button.addEventListener('click', () => {
-            showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
+            showView(dashboardView, 'APLIKASI NILAI MATEMATIKA', homeButton); // <-- PERUBAHAN DI SINI
         });
     });
 
     // --- Inisialisasi Kondisi Awal Sidebar dan Tampilan ---
-    // Fungsi untuk mengatur kondisi awal sidebar berdasarkan ukuran layar
-    function setInitialSidebarState() {
-        if (window.innerWidth > 768) { // Desktop
-            sidebar.classList.add('expanded');
-            mainContent.classList.add('shifted');
-        } else { // Mobile
-            sidebar.classList.remove('expanded'); // Pastikan tidak ada class expanded
-            // Di mobile, main-content harus punya margin-left 0 (sudah di CSS)
+    // Panggil toggleSidebar(true) untuk memastikan sidebar selalu tertutup saat DOMContentLoaded
+    toggleSidebar(true);
+
+    // Tampilkan dashboard utama saat aplikasi pertama kali dimuat
+    showView(dashboardView, 'APLIKASI NILAI MATEMATIKA', homeButton); // <-- PERUBAHAN DI SINI
+
+    // Sesuaikan sidebar saat ukuran jendela berubah (misal dari desktop ke mobile)
+    window.addEventListener('resize', () => {
+        if (window.innerWidth <= 768) {
+            sidebar.classList.remove('expanded');
+            mainContent.classList.remove('shifted');
+        } else {
+            // Di desktop, jika sidebar sudah dibuka, biarkan terbuka. Jika tidak, biarkan kompak.
+            // Tidak perlu ada logic khusus di sini karena toggleSidebar(true) sudah dipanggil di awal
+            // dan toggleSidebar() yang dipanggil oleh hamburger akan menangani expanded/shifted
         }
-    }
-
-    // Panggil fungsi inisialisasi saat DOMContentLoaded
-    setInitialSidebarState();
-    // Panggil lagi saat jendela diubah ukurannya (misal: rotasi HP, resize browser)
-    window.addEventListener('resize', setInitialSidebarState);
-
-    // Set flag agar sidebar tidak otomatis tertutup saat pemuatan pertama
-    sidebar.dataset.initialLoad = 'true';
-    showView(dashboardView, 'Aplikasi Nilai Matematika', homeButton);
-
+    });
 
     // --- Pendaftaran Service Worker untuk PWA ---
     if ('serviceWorker' in navigator) {
